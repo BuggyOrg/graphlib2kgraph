@@ -2,6 +2,7 @@
   "name": "@buggyorg/graphlib2kgraph",
   "version": "0.1.1",
   "description": "Converter from the graphlib format into the kgraph format.",
+  "main": "lib/api.js",
   "bin": {
     "g2k": "lib/cli.js"
   },
