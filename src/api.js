@@ -9,7 +9,6 @@ export function convertPort (nodeName, type, port, portType) {
 }
 
 export function convertNode (node) {
-  var convertNodePort = _.partial(convertPort, node.v)
   return {
     id: node.v,
     labels: [{text: node.v}],

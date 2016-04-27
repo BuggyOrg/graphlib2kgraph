@@ -15,7 +15,7 @@ describe('Graphlib to KGraph conversion', () => {
     expect(knode.labels).to.have.length(1)
     expect(knode.labels[0].text).to.equal('a')
     expect(knode.ports).to.have.length(1)
-    expect(knode.ports[0].id).to.equal('a_b')
+    expect(knode.ports[0].id).to.equal('a_b_in')
   })
 
   it('can convert graphlib graphs', () => {
