@@ -23,26 +23,44 @@ export function convertNodes (nodes) {
   return _.map(nodes, convertNode)
 }
 
-export function convertEdge (edge) {
-  return {
-    id: edge.v + edge.w,
-    source: edge.v,
-    sourcePort: edge.v + '_' + edge.value.outPort + '_out',
-    target: edge.w,
-    targetPort: edge.w + '_' + edge.value.inPort + '_in'
+export function convertEdge (graph, edge) {
+  if (graph.parent(edge.v) === edge.w) {
+    return {
+      id: edge.v + edge.w,
+      source: edge.v,
+      sourcePort: edge.v + '_' + edge.value.outPort + '_out',
+      target: edge.w,
+      targetPort: edge.w + '_' + edge.value.inPort + '_out'
+    }
+  } else if (graph.parent(edge.w) === edge.v) {
+    return {
+      id: edge.v + edge.w,
+      source: edge.v,
+      sourcePort: edge.v + '_' + edge.value.outPort + '_in',
+      target: edge.w,
+      targetPort: edge.w + '_' + edge.value.inPort + '_in'
+    }
+  } else {
+    return {
+      id: edge.v + edge.w,
+      source: edge.v,
+      sourcePort: edge.v + '_' + edge.value.outPort + '_out',
+      target: edge.w,
+      targetPort: edge.w + '_' + edge.value.inPort + '_in'
+    }
   }
 }
 
-export function convertEdges (edges) {
-  return _.map(edges, convertEdge)
+export function convertEdges (graph, edges) {
+  return _.map(edges, _.partial(convertEdge, graph, _))
 }
 
-function combineNodes (node, childMap, edgeMap) {
+function combineNodes (graph, node, childMap, edgeMap) {
   if (_.has(childMap, node.id)) {
-    node.children = _.map(childMap[node.id], _.partial(combineNodes, _, childMap, edgeMap))
+    node.children = _.map(childMap[node.id], _.partial(combineNodes, graph, _, childMap, edgeMap))
   }
   if (_.has(edgeMap, node.id)) {
-    node.edges = convertEdges(edgeMap[node.id])
+    node.edges = convertEdges(graph, edgeMap[node.id])
   }
   return node
 }
@@ -76,7 +94,7 @@ export function convertGraph (graph) {
   return {
     id: 'root',
     // nodes[undefined] returns all nodes that have no parent
-    children: _.map(nodes[undefined], _.partial(combineNodes, _, nodes, edges)),
+    children: _.map(nodes[undefined], _.partial(combineNodes, graph, _, nodes, edges)),
     edges: convertEdges(edges[undefined])
   }
 }

@@ -21,6 +21,10 @@ describe('Graphlib to KGraph conversion', () => {
   it('can convert graphlib graphs', () => {
     var g = grlib.json.read(JSON.parse(fs.readFileSync('test/fixtures/fac.json')))
     var newGraph = api.convertGraph(g)
-    // TODO write test
+    var facEdges = newGraph.children[2].edges
+    expect(facEdges[0].sourcePort).to.equal('fac_n_in')
+    expect(facEdges[2].sourcePort).to.equal('fac_n_in')
+    expect(facEdges[4].targetPort).to.equal('fac_fac_out')
+    expect(facEdges[facEdges.length - 1].targetPort).to.equal('fac_fac_out')
   })
 })
