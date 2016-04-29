@@ -95,6 +95,6 @@ export function convertGraph (graph) {
     id: 'root',
     // nodes[undefined] returns all nodes that have no parent
     children: _.map(nodes[undefined], _.partial(combineNodes, graph, _, nodes, edges)),
-    edges: convertEdges(edges[undefined])
+    edges: convertEdges(graph, edges[undefined])
   }
 }

@@ -27,4 +27,10 @@ describe('Graphlib to KGraph conversion', () => {
     expect(facEdges[4].targetPort).to.equal('fac_fac_out')
     expect(facEdges[facEdges.length - 1].targetPort).to.equal('fac_fac_out')
   })
+
+  it('keeps edges for nodes without parents', () => {
+    var g = grlib.json.read(JSON.parse(fs.readFileSync('test/fixtures/fac2.json')))
+    var newGraph = api.convertGraph(g)
+    expect(newGraph.edges).to.have.length(4)
+  })
 })
