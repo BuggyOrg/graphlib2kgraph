@@ -4,7 +4,10 @@ import _ from 'lodash'
 
 export function convertPort (nodeName, type, port, portType) {
   return {
-    id: nodeName + '_' + port + '_' + portType
+    id: nodeName + '_' + port + '_' + portType,
+    meta: {
+      type: type
+    }
   }
 }
 
@@ -15,7 +18,8 @@ export function convertNode (node) {
     ports: _.concat(
       _.map(node.value.inputPorts, _.partial(convertPort, node.v, _, _, 'in')),
       _.map(node.value.outputPorts, _.partial(convertPort, node.v, _, _, 'out'))
-    )
+    ),
+    meta: node.value
   }
 }
 
@@ -24,29 +28,22 @@ export function convertNodes (nodes) {
 }
 
 export function convertEdge (graph, edge) {
+  var sourceHierarchy = false
+  var targetHierarchy = false
   if (graph.parent(edge.v) === edge.w) {
-    return {
-      id: edge.v + edge.w,
-      source: edge.v,
-      sourcePort: edge.v + '_' + edge.value.outPort + '_out',
-      target: edge.w,
-      targetPort: edge.w + '_' + edge.value.inPort + '_out'
-    }
+    sourceHierarchy = true
   } else if (graph.parent(edge.w) === edge.v) {
-    return {
-      id: edge.v + edge.w,
-      source: edge.v,
-      sourcePort: edge.v + '_' + edge.value.outPort + '_in',
-      target: edge.w,
-      targetPort: edge.w + '_' + edge.value.inPort + '_in'
-    }
-  } else {
-    return {
-      id: edge.v + edge.w,
-      source: edge.v,
-      sourcePort: edge.v + '_' + edge.value.outPort + '_out',
-      target: edge.w,
-      targetPort: edge.w + '_' + edge.value.inPort + '_in'
+    targetHierarchy = true
+  }
+  return {
+    id: edge.v + edge.w,
+    source: edge.v,
+    sourcePort: edge.v + '_' + edge.value.outPort + ((sourceHierarchy) ? '_out' : '_in'),
+    target: edge.w,
+    targetPort: edge.w + '_' + edge.value.inPort + ((targetHierarchy) ? '_in' : '_out'),
+    meta: {
+      sourceType: graph.node(edge.v)[(targetHierarchy) ? 'inputPorts' : 'outputPorts'][edge.value.outPort],
+      targetType: graph.node(edge.w)[(sourceHierarchy) ? 'outputPorts' : 'inputPorts'][edge.value.inPort]
     }
   }
 }
