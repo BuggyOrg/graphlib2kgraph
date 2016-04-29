@@ -38,9 +38,9 @@ export function convertEdge (graph, edge) {
   return {
     id: edge.v + edge.w,
     source: edge.v,
-    sourcePort: edge.v + '_' + edge.value.outPort + ((sourceHierarchy) ? '_out' : '_in'),
+    sourcePort: edge.v + '_' + edge.value.outPort + ((targetHierarchy) ? '_in' : '_out'),
     target: edge.w,
-    targetPort: edge.w + '_' + edge.value.inPort + ((targetHierarchy) ? '_in' : '_out'),
+    targetPort: edge.w + '_' + edge.value.inPort + ((sourceHierarchy) ? '_out' : '_in'),
     meta: {
       sourceType: graph.node(edge.v)[(targetHierarchy) ? 'inputPorts' : 'outputPorts'][edge.value.outPort],
       targetType: graph.node(edge.w)[(sourceHierarchy) ? 'outputPorts' : 'inputPorts'][edge.value.inPort]
