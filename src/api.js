@@ -6,7 +6,8 @@ export function convertPort (nodeName, type, port, portType) {
   return {
     id: nodeName + '_' + port + '_' + portType,
     meta: {
-      type: type
+      type: type,
+      name: port
     }
   }
 }
@@ -43,7 +44,11 @@ export function convertEdge (graph, edge) {
     targetPort: edge.w + '_' + edge.value.inPort + ((sourceHierarchy) ? '_out' : '_in'),
     meta: {
       sourceType: graph.node(edge.v)[(targetHierarchy) ? 'inputPorts' : 'outputPorts'][edge.value.outPort],
-      targetType: graph.node(edge.w)[(sourceHierarchy) ? 'outputPorts' : 'inputPorts'][edge.value.inPort]
+      targetType: graph.node(edge.w)[(sourceHierarchy) ? 'outputPorts' : 'inputPorts'][edge.value.inPort],
+      sourceNode: edge.v,
+      sourcePort: edge.value.outPort,
+      targetNode: edge.w,
+      targetPort: edge.value.inPort
     }
   }
 }
