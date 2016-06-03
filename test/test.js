@@ -44,4 +44,11 @@ describe('Graphlib to KGraph conversion', () => {
     var newGraph = api.convertGraph(g)
     expect(newGraph.edges).to.have.length(4)
   })
+
+  it('correctly handles edges that go directly through compound nodes', () => {
+    var g = grlib.json.read(JSON.parse(fs.readFileSync('test/fixtures/through-compound.json')))
+    var newGraph = api.convertGraph(g)
+    expect(newGraph.edges[0].sourcePort).to.equal('c_0_i_in')
+    expect(newGraph.edges[0].targetPort).to.equal('c_0_out_out')
+  })
 })
