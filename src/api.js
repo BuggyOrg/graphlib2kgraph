@@ -35,6 +35,9 @@ export function convertEdge (graph, edge) {
     sourceHierarchy = true
   } else if (graph.parent(edge.w) === edge.v) {
     targetHierarchy = true
+  } else if (edge.v === edge.w) {
+    sourceHierarchy = true
+    targetHierarchy = true
   }
   return {
     id: edge.v + edge.w,
@@ -70,7 +73,9 @@ function combineNodes (graph, node, childMap, edgeMap) {
 var edgeParent = function (graph, edge) {
   var outP = edge.v
   var inP = edge.w
-  if (graph.parent(outP) === graph.parent(inP)) {
+  if (outP === inP) {
+    return outP
+  } else if (graph.parent(outP) === graph.parent(inP)) {
     return graph.parent(outP)
   } else if (graph.parent(outP) === inP) {
     return inP
