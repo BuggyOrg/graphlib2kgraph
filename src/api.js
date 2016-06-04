@@ -15,7 +15,7 @@ export function convertPort (nodeName, type, port, portType) {
 export function convertNode (node) {
   return {
     id: node.v,
-    labels: [{text: node.v}],
+    labels: [{text: node.value.id || node.v, name: node.v}],
     ports: _.concat(
       _.map(node.value.inputPorts, _.partial(convertPort, node.v, _, _, 'in')),
       _.map(node.value.outputPorts, _.partial(convertPort, node.v, _, _, 'out'))
