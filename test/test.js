@@ -52,4 +52,11 @@ describe('Graphlib to KGraph conversion', () => {
     expect(newGraph.children[0].edges[0].sourcePort).to.equal('c_0_i_in')
     expect(newGraph.children[0].edges[0].targetPort).to.equal('c_0_out_out')
   })
+
+  it('supports styled nodes and edges', () => {
+    var g = grlib.json.read(JSON.parse(fs.readFileSync('test/fixtures/styled.json')))
+    var newGraph = api.convertGraph(g)
+    expect(newGraph.children.some((node) => _.get(node, 'meta.style.color') === '#ff0000')).to.be.true
+    expect(_.get(newGraph.edges[0], 'meta.style.color')).to.equal('#0000ff')
+  })
 })

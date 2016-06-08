@@ -1,0 +1,81 @@
+{
+  "options": {
+    "directed": true,
+    "multigraph": true,
+    "compound": true
+  },
+  "nodes": [
+    {
+      "v": "stdout_0",
+      "value": {
+        "id": "io/stdout",
+        "version": "0.3.0",
+        "inputPorts": {
+          "input": "string"
+        },
+        "outputPorts": {},
+        "settings": {
+          "sideEffects": true,
+          "argumentOrdering": [
+            "input"
+          ]
+        },
+        "meta": {
+          "style": {
+            "color": "#ff0000"
+          }
+        },
+        "atomic": true,
+        "isSink": true,
+        "path": [],
+        "branchPath": "stdout_0",
+        "branch": "stdout_0",
+        "name": "stdout_0",
+        "recursive": false
+      }
+    },
+    {
+      "v": "const(hello world)_1",
+      "value": {
+        "id": "std/const",
+        "version": "0.2.0",
+        "inputPorts": {},
+        "outputPorts": {
+          "output": "generic"
+        },
+        "atomic": true,
+        "settings": {
+          "argumentOrdering": [
+            "output"
+          ]
+        },
+        "path": [],
+        "params": {
+          "value": "hello world"
+        },
+        "typeHint": {
+          "output": "string"
+        },
+        "branchPath": "const(hello world)_1",
+        "branch": "const(hello world)_1",
+        "name": "const(hello world)_1",
+        "recursive": false
+      }
+    }
+  ],
+  "edges": [
+    {
+      "v": "const(hello world)_1",
+      "w": "stdout_0",
+      "value": {
+        "outPort": "output",
+        "inPort": "input",
+        "meta": {
+          "style": {
+            "color": "#0000ff"
+          }
+        }
+      }
+    }
+  ]
+}

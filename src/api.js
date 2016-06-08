@@ -20,7 +20,7 @@ export function convertNode (node) {
       _.map(node.value.inputPorts, _.partial(convertPort, node.v, _, _, 'in')),
       _.map(node.value.outputPorts, _.partial(convertPort, node.v, _, _, 'out'))
     ),
-    meta: node.value
+    meta: Object.assign({}, node.value, { style: _.get(node, 'value.meta.style') })
   }
 }
 
@@ -51,9 +51,9 @@ export function convertEdge (graph, edge) {
       sourceNode: edge.v,
       sourcePort: edge.value.outPort,
       targetNode: edge.w,
-      targetPort: edge.value.inPort
-    },
-    style: edge.value.meta ? (edge.value.meta.style || {}) : {}
+      targetPort: edge.value.inPort,
+      style: _.get(edge, 'value.meta.style')
+    }
   }
 }
 
