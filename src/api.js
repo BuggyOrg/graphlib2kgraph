@@ -52,7 +52,8 @@ export function convertEdge (graph, edge) {
       sourcePort: edge.value.outPort,
       targetNode: edge.w,
       targetPort: edge.value.inPort
-    }
+    },
+    style: edge.value.meta ? (edge.value.meta.style || {}) : {}
   }
 }
 
