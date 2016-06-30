@@ -1,5 +1,5 @@
 
-import {utils} from '@buggyorg/graphtools'
+import * as graphtools from '@buggyorg/graphtools'
 import _ from 'lodash'
 
 export function convertPort (nodeName, type, port, portType) {
@@ -90,7 +90,7 @@ function setEdgeParent (edge, graph) {
 }
 
 export function convertGraph (graph) {
-  var editGraph = utils.edit(graph)
+  var editGraph = graphtools.graph.toJSON(graph)
   var nodes = _(editGraph.nodes)
     .groupBy('parent')
     .mapValues(convertNodes)
