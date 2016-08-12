@@ -26,9 +26,9 @@ if (program.graphfile) {
   })
 } else {
   getStdin().then((str) => {
-    processGraph(str).then((code) => console.log(code))
-    .catch((e) => {
-      console.log('Error while processing: ', e.stack)
-    })
+    return processGraph(str).then((code) => console.log(code))
+  })
+  .catch((e) => {
+    console.log('Error while processing: ', e.stack)
   })
 }
